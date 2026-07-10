@@ -113,15 +113,15 @@ def creat_rgbimage(image_tensor, dim1, dim2, overlap1, overlap2, n_ch):
 
 
 image_data = Image.open(
-    r"/content/woman_praying_aligned.tiff"
+    r"C:\Users\foxy2\OneDrive - Imperial College London\Software\Data\aligned_data\woman_praying_aligned.tiff"
 )  # open the woman praying image (reference photo for layer 1)
 rgb1 = np.asarray(image_data, dtype="float32")  # convert that image to a float32 NumPy RGB array
 image_data = Image.open(
-    r"/content/manuscript.tiff"
+    r"C:\Users\foxy2\OneDrive - Imperial College London\Software\Data\aligned_data\manuscript.tiff"
 )  # open the manuscript (reference photo for the hidden layer 2)
 rgb2 = np.asarray(image_data, dtype="float32")  # convert to float32 NumPy RGB array
 image_data = Image.open(
-    r"/content/aligned_xray.bmp"
+    r"C:\Users\foxy2\OneDrive - Imperial College London\Software\Data\aligned_data\aligned_xray.bmp"
 )  # open the xray image (the mixture of both layers we want to separate)
 xray_data = np.asarray(image_data, dtype="float32")  # X-ray as a float32 array (loads as H x W x 3 RGB)
 if xray_data.ndim == 3:  # the .bmp is grayscale stored in 3 identical RGB channels
