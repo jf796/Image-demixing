@@ -135,6 +135,17 @@ def rgb2gray(rgb):
     return np.dot(rgb[..., :3], [0.299, 0.587, 0.114])  # weighted sum of R,G,B -> single luminance value
 
 
+def histogram_stretch(img, low_pct=1.0, high_pct=99.0):
+    # Paper's preprocessing for the mixed X-ray ("histogram stretching / normalization"):
+    # a percentile-based contrast stretch. Drop the lowest/highest 1% of grayscale
+    # values (outlier removal), then linearly rescale the surviving [p_low, p_high]
+    # range onto the full [0, 255] dynamic range so every X-ray has a common scale.
+    lo = np.percentile(img, low_pct)  # 1st-percentile grayscale value
+    hi = np.percentile(img, high_pct)  # 99th-percentile grayscale value
+    stretched = (img - lo) / (hi - lo + 1e-8) * 255.0  # map [lo, hi] -> [0, 255]
+    return np.clip(stretched, 0, 255).astype("float32")  # clamp the clipped 1% tails to the [0, 255] ends
+
+
 g1 = np.empty((xray_data.shape[0], xray_data.shape[1], 1), dtype="float32")  # allocate H x W x 1 for reference-1 gray
 gray1_data = rgb2gray(rgb1)  # grayscale version of the "woman praying" photo
 g1[:, :, 0] = gray1_data  # store it in g1's single channel
@@ -142,9 +153,12 @@ g2 = np.empty((xray_data.shape[0], xray_data.shape[1], 1), dtype="float32")  # a
 gray2_data = rgb2gray(rgb2)  # grayscale version of the "manuscript" photo
 g2[:, :, 0] = gray2_data  # store it in g2's single channel
 
-xray = xray / 255  # normalise X-ray pixel values from [0,255] to [0,1]
-g1 = g1 / 255  # normalise reference-1 grayscale to [0,1]
-g2 = g2 / 255  # normalise reference-2 grayscale to [0,1]
+xray = histogram_stretch(xray)  # paper preprocessing: clip the 1%/99% tails, stretch dynamic range to [0,255]
+xray = xray / 255  # then normalise X-ray pixel values from [0,255] to [0,1]
+g1 = histogram_stretch(g1)  # same 1%/99% clip + stretch on reference-1 (equalises its low contrast)
+g1 = g1 / 255  # then normalise reference-1 grayscale to [0,1]
+g2 = histogram_stretch(g2)  # same 1%/99% clip + stretch on reference-2
+g2 = g2 / 255  # then normalise reference-2 grayscale to [0,1]
 m = xray_data.shape[0]  # image height (number of rows), used everywhere below
 n = xray_data.shape[1]  # image width  (number of cols)
 ####################################################################
