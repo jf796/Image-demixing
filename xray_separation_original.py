@@ -229,7 +229,7 @@ def Encoder_x():
         E = Add()([B, C])
         code = Proximal_Conv_Operator(units=filters)(E)
 
-    E_x = Model(inputs=[input_ex], outputs=[code])
+    E_x = Model(inputs=[input_ex], outputs=code)
 
     return E_x
 
@@ -248,7 +248,7 @@ def Encoder_r():
         E = Add()([B, C])
         code = Proximal_Conv_Operator(units=filters)(E)
 
-    E_r = Model(inputs=[input_er], outputs=[code])
+    E_r = Model(inputs=[input_er], outputs=code)
 
     return E_r
 
