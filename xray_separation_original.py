@@ -23,9 +23,9 @@ import keras.initializers as initializers
 import imageio
 imsave = imageio.imsave
 
-iteration_number = 400
+iteration_number = 150
 patchsize = 50
-distance = 10
+distance = 30
 img_width = patchsize
 img_height = patchsize
 size_v = img_width * img_height
