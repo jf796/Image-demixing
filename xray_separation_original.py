@@ -256,14 +256,14 @@ def Encoder_r():
 def Decoder_r():
     input_dr = Input(shape=(input_shape[0],input_shape[1],filters), name='InputDr')
     x = Conv2D(kernel_size=kernel_dim, filters=input_shape[-1], use_bias=False, padding='same')(input_dr)
-    D_r = Model(inputs=[input_dr], outputs=[x])
+    D_r = Model(inputs=[input_dr], outputs=x)
     return D_r
 
 
 def Decoder_x():
     input_dx = Input(shape=(input_shape[0],input_shape[1],filters), name='InputDx')
     x = Conv2D(kernel_size=kernel_dim, filters=input_shape[-1], use_bias=False, padding='same')(input_dx)
-    D_x = Model(inputs=[input_dx], outputs=[x])
+    D_x = Model(inputs=[input_dx], outputs=x)
     return D_x
 
 
