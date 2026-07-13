@@ -24,7 +24,7 @@ import keras.initializers as initializers
 import imageio
 imsave = imageio.imsave
 
-iteration_number = 150
+iteration_number = 5
 patchsize = 50
 distance = 30
 img_width = patchsize
@@ -320,9 +320,13 @@ Fx = Model(inputs=[input_er1, input_er2], outputs=[x1, x2])
 ##    Image recovery
 ####################################################################
 
+x1_pre = creat_image(x1_pre_cube, m, n, distance, distance, 1)[cite: 1, 2]
+x2_pre = creat_image(x2_pre_cube, m, n, distance, distance, 1)[cite: 1, 2]
 
-x1_pre = creat_image(x1_pre_cube, m, n, distance, distance, 1)
-x2_pre = creat_image(x2_pre_cube, m, n, distance, distance, 1)
+def to_uint8(img):
+    img = np.clip(img, 0, 1)
+    return (img * 255).round().astype(np.uint8)[cite: 1]
 
-imsave('x1_pre.jpg', x1_pre)
-imsave('x2_pre.jpg', x2_pre)
+# Convert the float arrays to uint8 before saving
+imsave('x1_pre.jpg', to_uint8(x1_pre))[cite: 1]
+imsave('x2_pre.jpg', to_uint8(x2_pre))[cite: 1]
