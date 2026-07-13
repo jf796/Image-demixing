@@ -16,6 +16,7 @@ from keras import backend as K
 from keras import optimizers
 from keras.layers import Dense, Layer, Input, Add, Conv2D, Multiply, Subtract
 from keras.models import Model
+from keras import ops
 
 import keras.initializers as initializers
 
@@ -190,7 +191,7 @@ class Proximal_Conv_Operator(Layer):
         self.built = True
 
     def call(self, x):
-        outputs = K.sign(x) * K.maximum(K.abs(x) - self.threshold, 0)
+        outputs = ops.sign(x) * ops.maximum(ops.abs(x) - self.threshold, 0)
         return outputs
 
     def get_config(self):
