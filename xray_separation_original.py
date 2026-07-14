@@ -23,8 +23,7 @@ import keras.initializers as initializers
 # import cv2 as cv
 import imageio
 imsave = imageio.imsave
-
-iteration_number = 400
+iteration_number = 400#git pull
 patchsize = 50
 distance = 30
 img_width = patchsize
